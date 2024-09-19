@@ -4,7 +4,7 @@ export const { useAuth, authFetch, login, logout } =
 createAuthProvider({
     accessTokenKey: 'access_token',
     onUpdateToken: token =>
-        fetch('localhost:5000/auth/refresh', {
+        fetch('/auth/refresh', {
             method: 'POST',
             body: token.refresh_token,
         }).then(r => r.json())

@@ -23,15 +23,12 @@ const CreateFormPage = () => {
 
         }
         fetch('/recipe/recipes', requestOptions)
-    .then(res => {
-        if (!res.ok) {
-            return res.text().then(text => { throw new Error(text); });
-        }
-        return res.json();
-    })
-    .then(data => console.log(data))
-    .catch(err => console.log('Error:', err));
-
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            reset()
+        })
+        .catch(err => console.log(err))
     }
 
     return (
