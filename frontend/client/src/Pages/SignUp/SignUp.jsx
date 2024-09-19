@@ -28,7 +28,7 @@ const SignUp = () => {
         body:JSON.stringify(body)
       }
 
-      fetch('/auth/signup',requestOptions)
+      fetch('http://localhost:5000/auth/signup',requestOptions)
       .then(res=>res.json())
       .then(data=>{
         console.log(data)
