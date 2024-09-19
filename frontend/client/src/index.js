@@ -6,6 +6,7 @@ import Login from './Pages/Login/Login';
 import SignUp from './Pages/SignUp/SignUp'
 import reportWebVitals from './reportWebVitals';
 import Form from './Pages/Form/form';
+import CreateForm from './Pages/CreateForm/CreateForm';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/form",
     element: <Form/>,
+  },
+  {
+    path: "/createform",
+    element: <CreateForm/>,
   },
   {
     path: "/login",
