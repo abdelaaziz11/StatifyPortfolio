@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import './Main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
@@ -13,35 +13,36 @@ import teamMember2 from '../../Assests/images (3).jpeg'; // Replace with your ac
 import teamMember3 from '../../Assests/images (3).jpeg'; // Replace with your actual image path
 import teamMember4 from '../../Assests/images (3).jpeg'; // Replace with your actual image path
 import { useAuth } from '../../auth';
+import Recipe from '../../Pages/Form/form';
+
+
 
 const LoggedInHome=()=>{
+  const[recipes,setRecipes]=useState([]);
+  useEffect(
+      ()=>{
+        fetch('/recipe/recipes')
+        .then(res=>res.json())
+        .then(data=>{
+          console.log(data)
+          setRecipes(data)})
+        .catch(err=>console.log(err))
+      },[]
+
+  );
   return(
     <>
-    {/* HERO SECTION */}
-    <section className="hero-section">
-          <video src={videobg} autoPlay loop muted className="video-bg" />
-          <div className="hero">
-            <Link to="/login">
-              <button className="btn-hero">Get Started</button>
-            </Link>
-          </div>
-        </section>
-
-        {/* ABOUT SECTION */}
-        <section className="about-section" id="about">
-          <div className="about">
-            <h1 className="heading text-uppercase">About Us</h1>
-            <span className="text-black-50">Statify is a Morocco statistics online</span>
-            <div className="about-content">
-              <div className="about-image">
-                <img src={aboutimage} alt="about-image" />
-              </div>
-              <div className="about-info">
-                <p>Statify is a groundbreaking platform designed to transform the way Morocco conducts its national census. Our mission is to streamline the data collection process by empowering citizens to participate directly. We believe that by modernizing this vital task, we can improve the accuracy, efficiency, and cost-effectiveness of large-scale statistical reporting. At Statify, we’re committed to innovation that benefits both the government and the people. Our platform enables individuals to easily input their own information, eliminating the need for traditional data collectors and saving valuable time and resources. Join us in building a smarter, more connected Morocco, where every voice matters, and every data point contributes to a brighter future.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+      <div className='recipes'>
+        <h1>List</h1>
+        {
+          recipes.map(
+            (recipe)=>(
+              <Recipe title={recipe.title} description={recipe.description}/>
+            )
+          )
+        }
+      </div>
+    
     </>
   )
 }
