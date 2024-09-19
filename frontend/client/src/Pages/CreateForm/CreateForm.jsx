@@ -22,12 +22,16 @@ const CreateFormPage = () => {
             body: JSON.stringify(data)
 
         }
-        fetch('http://localhost:5000/recipe/recipes', requestOptions)
-            .then(res => res.json())
-            .then(data => 
-                console.log(data)
-            )
-            .catch(err => console.log(err))
+        fetch('/recipe/recipes', requestOptions)
+    .then(res => {
+        if (!res.ok) {
+            return res.text().then(text => { throw new Error(text); });
+        }
+        return res.json();
+    })
+    .then(data => console.log(data))
+    .catch(err => console.log('Error:', err));
+
     }
 
     return (
@@ -40,7 +44,7 @@ const CreateFormPage = () => {
                 <Form.Group>
                     <Form.Label>Title</Form.Label>
                     <Form.Control type="text" 
-                    {...register("tiele", { required: true, maxLength: 25})}
+                    {...register("title", { required: true, maxLength: 25})}
                     />
                 </Form.Group>
                     {errors.title && <p style={{ color: 'red' }}><small>Title is required</small></p>}
