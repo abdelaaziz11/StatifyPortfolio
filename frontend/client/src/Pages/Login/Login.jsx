@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
-  const { register, handleSubmit, reset, formState:{errors}} = useForm();
+  const { register, handleSubmit,reset, formState:{errors}} = useForm();
   const navigate = useNavigate()
 
   const LoginUser = (data) => {
@@ -26,27 +26,13 @@ const Login = () => {
       body:JSON.stringify(data)
     }
 
-    fetch('/auth/login', requestOptions)
-  .then(res => {
-    if (!res.ok) {
-      throw new Error(`API returned status code ${res.status}`);
-    }
-    return res.json();
-  })
-  .then(data => {console.log(data)
-    console.log("API Response:", data); // Log the response to see if access_token exists
-    if (data.access_token) {
-      login(data.access_token);
-      navigate('/');
-    } else {
-      console.error('Access token is missing in the response');
-      // Handle missing access_token scenario (e.g., show error message)
-    }
-    
-  })
-  .catch(error => {
-    console.error('Error during login:', error); // Log any network or server errors
-  });
+    fetch('http://localhost:5000/auth/login', requestOptions)
+    .then(res=>res.json())
+    .then(data=>{
+      console.log(data)
+
+
+    })
 
 reset();
 
