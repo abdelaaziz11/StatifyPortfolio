@@ -27,12 +27,15 @@ const Login = () => {
     }
 
     fetch('http://localhost:5000/auth/login', requestOptions)
-    .then(res=>res.json())
-    .then(data=>{
-      console.log(data)
+  .then(res => res.json()) // Get the response as text
+  .then(data => {
+      console.log(data.access_token)
+      login(data.access_token)
 
+      navigate('/home')
+  })
+    
 
-    })
 
 reset();
 
