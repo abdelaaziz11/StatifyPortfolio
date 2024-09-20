@@ -14,35 +14,163 @@ import teamMember3 from '../../Assests/images (3).jpeg'; // Replace with your ac
 import teamMember4 from '../../Assests/images (3).jpeg'; // Replace with your actual image path
 import { useAuth } from '../../auth';
 import Recipe from '../Recipe';
+import {Modal,Form,Button} from 'react-bootstrap'
+import{useForm} from 'react-hook-form'
 
 
 
 const LoggedInHome=()=>{
   const[recipes,setRecipes]=useState([]);
+  const[show,setShow]=useState(false)
+  const{register,reset,handleSubmit,setValue,formState:{errors}}=useForm()
+  const[recipeId,setRecipeId]=useState(0)
   useEffect(
       ()=>{
         fetch('/recipe/recipes')
         .then(res=>res.json())
         .then(data=>{
-          console.log(data)
+          
           setRecipes(data)
         })
         .catch(err=>console.log(err))
       },[]
 
   );
+
+ 
+
+  const closeModal=()=>{
+    setShow(false)
+  }
+
+
+  const showModal=(id)=>{
+    setShow(true)
+    setRecipeId(id)
+
+
+    recipes.map(
+      (recipe)=>{
+        if(recipe.id===id){
+          setValue('title',recipe.title)
+          setValue('description',recipe.description)
+        }
+      }
+    )
+  }
+  const updateRecipe=(data)=>{
+    console.log(data)
+    let token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
+
+    const requestOptions={
+      method:'PUT',
+      headers:{
+        'content-type':'application/json',
+        'Authorization':`Bearer ${JSON.parse(token)}`
+      },
+      body:JSON.stringify(data)
+    }
+
+    fetch(`/recipe/recipe/${recipeId}`,requestOptions)
+    .then(res=>res.json())
+    .then(data=>{  console.log(data)
+      const reload = window.location.reload()
+      reload()
+    })
+    .catch(err=>console.log(err))
+    
+    
+  }
   return(
     <>
           <div className="recipe">
-            <h1>List of You Form</h1>
-            {
-              recipes.map(
-                (recipe)=>(
-                <Recipe title={recipe.title} description={recipe.description} />
-                )
-              )
-            }
-          </div>
+        {/* Modal for updating recipe */}
+        <Modal show={show} size="lg" onHide={closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Update Recipe</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+          <form>
+                <Form.Group>
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control type="text" placeholder="full name"
+                    {...register("title", { required: true, maxLength: 25})}
+                    />
+                </Form.Group>
+                    {errors.title && <p><small style={{ color: 'red' }}>Title is required</small></p>}
+                {errors.title?.type === "maxLength" && <p>
+                    <small style={{ color: 'red' }}>Title should be less than 25 characters</small>
+                </p>}
+                <br></br>
+                
+                <Form.Group>
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control type="text" placeholder="address"
+                    {...register('description', { required: true, maxLength: 255 })}
+                    />
+                </Form.Group>
+                    {errors.description && <p><small style={{ color: 'red' }}>Description is required</small></p>}
+                {errors.description?.type === "maxLength" && <p>
+                    <small style={{ color: 'red' }}>Description should be less than 255 characters</small>
+                </p>}
+
+                {/* <br></br>
+                <Form.Group>
+                    <Form.Label>CNI</Form.Label>
+                    <Form.Control type="textarea" row={5}
+                    placeholder="CNI"
+                    {...register('description', { required: true, maxLength: 255 })}
+                    />
+                </Form.Group>
+                    {errors.description && <p><small style={{ color: 'red' }}>Description is required</small></p>}
+                {errors.description?.type === "maxLength" && <p>
+                    <small style={{ color: 'red' }}>Description should be less than 255 characters</small>
+                </p>}
+
+                <br></br>
+                <Form.Group>
+                    <Form.Label>Birthday Date</Form.Label>
+                    <Form.Control type="date" row={5} 
+                    {...register('description', { required: true, maxLength: 255 })}
+                    />
+                </Form.Group>
+                    {errors.description && <p><small style={{ color: 'red' }}>Description is required</small></p>}
+                {errors.description?.type === "maxLength" && <p>
+                    <small style={{ color: 'red' }}>Description should be less than 255 characters</small>
+                </p>}
+
+                <br></br>
+                <Form.Group>
+                    <Form.Label>Sexe</Form.Label>
+                    <Form.Control type="textarea" row={5} placeholder="sexe"
+                    {...register('description', { required: true, maxLength: 255 })}
+                    />
+                </Form.Group>
+                    {errors.description && <p><small style={{ color: 'red' }}>Description is required</small></p>}
+                {errors.description?.type === "maxLength" && <p>
+                    <small style={{ color: 'red' }}>Description should be less than 255 characters</small>
+                </p>}
+
+                <br></br> */}
+                <Form.Group>
+                    <Button variant="primary" onClick={handleSubmit(updateRecipe)}>Save</Button>
+                </Form.Group>
+                <Form.Group></Form.Group>
+            </form>
+          </Modal.Body>
+        </Modal>
+
+        <h1>List of Recipes</h1>
+        {
+        recipes.map((recipe,index) => (
+          <Recipe
+            key={index} // Ensure each recipe has a unique key
+            title={recipe.title}
+            description={recipe.description}
+            onClick={()=>{showModal(recipe.id)}}
+          />
+        ))}
+      </div>
     </>
   )
 }

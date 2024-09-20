@@ -25,7 +25,7 @@ const CreateRecipePage = () => {
         fetch('/recipe/recipes', requestOptions)
         .then(res => res.json())
         .then(data => {
-            console.log(data)
+            
             reset()
         })
         .catch(err => console.log(err))
@@ -40,7 +40,7 @@ const CreateRecipePage = () => {
             <br></br>
             <form>
                 <Form.Group>
-                    <Form.Label>Full Name</Form.Label>
+                    <Form.Label>Title</Form.Label>
                     <Form.Control type="text" placeholder="full name"
                     {...register("title", { required: true, maxLength: 25})}
                     />
@@ -52,7 +52,7 @@ const CreateRecipePage = () => {
                 <br></br>
                 
                 <Form.Group>
-                    <Form.Label>Address</Form.Label>
+                    <Form.Label>Description</Form.Label>
                     <Form.Control type="text" placeholder="address"
                     {...register('description', { required: true, maxLength: 255 })}
                     />
@@ -62,7 +62,7 @@ const CreateRecipePage = () => {
                     <small style={{ color: 'red' }}>Description should be less than 255 characters</small>
                 </p>}
 
-                <br></br>
+                {/* <br></br>
                 <Form.Group>
                     <Form.Label>CNI</Form.Label>
                     <Form.Control type="textarea" row={5}
@@ -99,7 +99,7 @@ const CreateRecipePage = () => {
                     <small style={{ color: 'red' }}>Description should be less than 255 characters</small>
                 </p>}
 
-                <br></br>
+                <br></br> */}
                 <Form.Group>
                     <Button variant="primary" onClick={handleSubmit(createRecipe)}>Save</Button>
                 </Form.Group>
