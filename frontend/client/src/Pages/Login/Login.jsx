@@ -32,7 +32,7 @@ const Login = () => {
       console.log(data.access_token)
       login(data.access_token)
 
-      navigate('/home')
+      navigate('/createform')
   })
     
 

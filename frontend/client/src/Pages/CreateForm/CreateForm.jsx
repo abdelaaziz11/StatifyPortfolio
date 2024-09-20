@@ -44,9 +44,9 @@ const CreateFormPage = () => {
                     {...register("title", { required: true, maxLength: 25})}
                     />
                 </Form.Group>
-                    {errors.title && <p style={{ color: 'red' }}><small>Title is required</small></p>}
-                {errors.title?.type === "maxLength" && <p style={{ color: 'red' }}>
-                    <small>Title should be less than 25 characters</small>
+                    {errors.title && <p ><small style={{color: 'red'}}>Title is required</small></p>}
+                {errors.title?.type === "maxLength" && <p >
+                    <small style={{color: 'red'}}>Title should be less than 25 characters</small>
                 </p>}
 
                 
@@ -56,9 +56,9 @@ const CreateFormPage = () => {
                     {...register('description', { required: true, maxLength: 255 })}
                     />
                 </Form.Group>
-                    {errors.description && <p style={{ color: 'red' }}><small>Description is required</small></p>}
-                {errors.description?.type === "maxLength" && <p style={{ color: 'red' }}>
-                    <small>Description should be less than 255 characters</small>
+                    {errors.description && <p><small style={{ color: 'red' }}>Description is required</small></p>}
+                {errors.description?.type === "maxLength" && <p>
+                    <small style={{color: 'red'}}>Description should be less than 255 characters</small>
                 </p>}
 
                 

@@ -7,8 +7,8 @@ import { useAuth,logout } from '../../auth';
 const LoggedInLinks = () => {
   return (
     <>
-      <li><Link to="/home">Home</Link></li>
-      <li><Link to="/form">Form</Link></li>
+      {/* <li><Link to="/home">Home</Link></li> */}
+      <li><Link to="/">Form</Link></li>
       <li><Link to="/createform">Create Form</Link></li>
       <li><a href='#' onClick={() => logout()}>Log Out</a></li>
     </>
